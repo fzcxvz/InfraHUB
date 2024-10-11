@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('../assets/images/city_background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.header-content h1 {
+    font-size: 4rem;
+    margin: 0;
+}
+
+.header-content p {
+    font-size: 1.5rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.user-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.energy h2 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.energy p {
+    font-size: 1.2rem;
+}
+
+.urban img {
+    width: 100px;
+    height: auto;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.icon img {
+    width: 50px;
+    height: 50px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.footer-links a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
