@@ -1,86 +1,197 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('../assets/images/city_background.png') no-repeat center center fixed;
+.imageskyline {
+    top: 0px;
+    left: 0px;
+    width: 1440px;
+    height: 657px;
+    border-radius: 8px;
+    background-image: url(./image.png);
+    background-position: center center;
     background-size: cover;
-    color: white;
-}
+    background-repeat: no-repeat;
+  }
 
-header {
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-}
+  .texttitle {
+    color: #e5e7eb;
+    font-size: 140px;
+    font-family: "Poppins";
+    font-weight: 500;
+    line-height: 182px;
+  }
+  
+  .textmini {
+    color: #e5e7eb;
+    font-size: 16px;
+    font-family: "Open Sans";
+    font-weight: 500;
+    line-height: 24px;
+  }
 
-.header-content h1 {
-    font-size: 4rem;
-    margin: 0;
-}
+  .textdescription {
+    color: #e5e7eb;
+    font-size: 24px;
+    font-family: "Poppins";
+    font-weight: 400;
+    line-height: 31px;
+    text-align: right;
+  }
+  
 
-.header-content p {
-    font-size: 1.5rem;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-.user-icon {
-    position: absolute;
+  .iconuser {
+    color: #ffffff;
+    fill: #ffffff;
+    font-size: 40px;
     top: 20px;
-    right: 20px;
-}
+    left: 1357px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  
+  .cardlayoutconsumedenergy {
+    top: 618px;
+    left: 36px;
+    width: 240px;
+    height: 213px;
+    background-color: #d9d9d9;
+    border-radius: 19.2px;
+    opacity: 0.86;
+  }
+ 
+  .containerenergyicon {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    width: 48px;
+    height: 24px;
+    opacity: 1;
+    pointer-events: auto;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.1);
+    background-color: rgba(255, 155, 66, 1);
+    border: 1px solid rgba(3, 3, 3, 1);
+  }
+  
+  .toggle {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    width: calc(50% - 6px);
+    height: calc(100% - 6px);
+    transform: translate(0%, -50%);
+    font-size: 14px;
+    transition: left 0.3s ease;
+    border-radius: 10px;
+    background-color: rgba(3, 3, 3, 1);
+  }
+  
+  .input {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+ 
+  .iconenergy {
+    color: #ffffff;
+    fill: #ffffff;
+    font-size: 9px;
+    top: 632px;
+    left: 217px;
+    width: 9px;
+    height: 21px;
+  }
+  
+  .textconsumedenergy {
+    color: #ff9500;
+    font-size: 14px;
+    font-family: "Poppins";
+    font-weight: 500;
+    line-height: 16px;
+  }  
 
-.dashboard {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-}
 
-.energy h2 {
-    font-size: 3rem;
-    margin: 0;
-}
+  .imageurban {
+    top: 617px;
+    left: 328px;
+    width: 245px;
+    height: 214px;
+    border-radius: 19.6px;
+    background-image: url(./image.png);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 
-.energy p {
-    font-size: 1.2rem;
-}
-
-.urban img {
-    width: 100px;
-    height: auto;
-}
-
-.icons {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-}
-
-.icon img {
-    width: 50px;
-    height: 50px;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.footer-links a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-}
+  .texturban {
+    color: #030303;
+    font-size: 26px;
+    font-family: "Poppins";
+    font-weight: 500;
+    line-height: 34px;
+    text-align: right;
+  }
+  
+  
+  .cardrectangular {
+    top: 639px;
+    left: 786px;
+    width: 571px;
+    height: 91px;
+    background-color: #d9d9d9;
+    border-radius: 8px;
+    opacity: 0.85;
+  }
+ 
+  .iconmunicipality {
+    color: #030303;
+    fill: #030303;
+    font-size: 70px;
+    top: 650px;
+    left: 837px;
+    width: 70px;
+    height: 72px;
+  }
+  
+  .iconcar {
+    color: #030303;
+    fill: #030303;
+    font-size: 61px;
+    top: 649px;
+    left: 949px;
+    width: 61px;
+    height: 71px;
+  }
+  
+  .icongraph {
+    color: #030303;
+    fill: #030303;
+    font-size: 62px;
+    top: 653px;
+    left: 1052px;
+    width: 62px;
+    height: 66px;
+  }
+  
+  .iconworld {
+    color: #030303;
+    fill: #030303;
+    font-size: 54px;
+    top: 657px;
+    left: 1156px;
+    width: 54px;
+    height: 59px;
+  }
+  
+  .iconmaintainance {
+    color: #030303;
+    fill: #030303;
+    font-size: 53px;
+    top: 653px;
+    left: 1253px;
+    width: 53px;
+    height: 65px;
+  }
+  

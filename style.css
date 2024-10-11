@@ -1,0 +1,161 @@
+/* Basic resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    height: 100vh;
+}
+
+/* Header styles */
+.header {
+    background-image: url('images/background.jpg'); /* Background image */
+    background-size: cover;  /* Ensures the image covers the entire section */
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    background-attachment: fixed;
+    filter: brightness(2); 
+}
+
+.header .overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);  /* Dark overlay */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+h1 {
+    font-size: 140px;
+    margin: 40px;
+    font-weight: 600;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.smart-city {
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    text-align: right;
+    transform: translateY(-50%);
+}
+
+.smart-city p {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.navbar ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Main section styles */
+.main-content {
+    position: absolute;
+    bottom: 150px;
+    left: 40px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+}
+
+.energy h2 {
+    color: black;
+    font-size: 48px;
+}
+
+.energy p {
+    color: orange;
+    font-size: 18px;
+}
+
+/* Footer styles */
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(211, 211, 211, 0.7);
+    padding: 10px 0;
+}
+
+
+/*footer {
+    top: 851px;
+    left: 0px;
+    width: 1440px;
+    height: 49px;
+    background-color: #ffffff;
+    position: absolute;
+}*/
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.icons a img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Icon Container (Rectangular Box) */
+.icon-container {
+    position: absolute;
+    top: 639px;   /* Exact positioning as requested */
+    left: 786px;  /* Exact positioning */
+    width: 571px;
+    height: 91px;
+    background-color: #d9d9d9;
+    border-radius: 8px;
+    opacity: 0.85;
+    display: flex;
+    justify-content: space-around;  /* Ensures even spacing between icons */
+    align-items: center;  /* Vertically centers icons within the box */
+    right: 40px;  /* Same as the smart city text alignment */
+    top: 40%;  /* Adjust the top value as needed */
+    transform: translateY(-100%);  /* Move the icon container above the Smart City text */
+    display: flex;
+    gap: 20px;  /* Spacing between icons */
+    
+}
+
+/* Adjust icon size and spacing */
+.icon-container a img {
+    width: 40px;
+    height: 40px;
+    
+}
+
