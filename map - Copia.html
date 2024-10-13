@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraHUB Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylemap.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>InfraHUB</h1>
+            <div class="header-icons">
+                <button class="icon-btn alert">⚠️</button>
+                <button class="icon-btn profile">👤</button>
+                <button class="icon-btn">Mails</button>
+                <button class="icon-btn">Maintenance</button>
+                <button class="icon-btn">Reports</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content 
+    <main class="main-content">
+        <div class="left-section">
+            <!-- Google Map with rounded corners 
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243647.5857390079!2d4.731990252312895!3d52.29984818392826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c60a6d3e437ba1%3A0x54aa09bcbd6a6e6e!2sRotterdam!5e0!3m2!1sen!2snl!4v1633014756959!5m2!1sen!2snl"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div> -->
+
+    <div class="left-section">
+            <!-- Search bar for locations -->
+        <div id="search-container">
+            <input id="pac-input" class="controls" type="text" placeholder="Search for a street" />
+        </div>
+        
+            <!-- Google Map with rounded corners -->
+        <div class="map-container" id="map"></div>
+    </div>
+        
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="explore-rect">
+                <h2>Explore Our</h2>
+                <button class="rect-btn">Infrastructure Status</button>
+                <button class="rect-btn">Analyze Data</button>
+                <button class="rect-btn">Maintenance Scheduling</button>
+                <button class="rect-btn">Traffic Flow</button>
+            </div>
+
+            <div class="data-rect">
+                <h2>Air Quality</h2>
+                <canvas id="airQualityChart"></canvas>
+            </div>
+
+            <div class="description-rect">
+                <p>Manage urban traffic flow with ease, monitor the city map in real-time, and keep everything running smoothly for a better urban experience.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            <p>© 2024 City Dashboard. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </footer>
+
+    <!-- 
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARtjtftVR_wd00FtOhhfTpr9OHkjHpi9Y&libraries=places&callback=initMap">
+    </script> -->
+
+    <!-- Load Google Maps JavaScript API with Places library -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARtjtftVR_wd00FtOhhfTpr9OHkjHpi9Y&libraries=places&callback=initMap" async defer></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scriptmap.js"></script>
+</body>
+</html>
