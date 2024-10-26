@@ -70,6 +70,7 @@ function updateTrafficStatistics(street) {
         li.textContent = `${stat.icon} ${stat.traffic} - ${stat.street}`;
         trafficStatsList.appendChild(li);
     });
+    
 }
 
 function updateDescription(statType, street) {

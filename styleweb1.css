@@ -1,0 +1,169 @@
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    color: #333;
+}
+
+.sidebar {
+    width: 232px;
+    height: 900px;
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    top: 0px;
+    left: 0px;
+}
+
+.account-card {
+    top: 24px;
+    left: 12px;
+    width: 208px;
+    height: 56px;
+    background-color: #d3d3d3;
+    border-radius: 12px;
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 80px;
+    border-radius: 50%;
+}
+
+.menu {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+}
+
+.settings {
+    position: absolute;
+    bottom: 20px;
+}
+
+
+.settings-signout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 100%;
+}
+
+.settings-btn, .signout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+}
+
+.settings-btn:hover, .signout-btn:hover {
+    background: #333; /* Optional hover effect */
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 4px rgba(3,3,3,0.1);
+  }
+    
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    top: 94px;
+    left: 256px;
+    width: 398px;
+    height: 180px;
+    background-color: #d3d3d3;
+    border-radius: 12px;
+    
+}
+
+.card img {
+    width: 100%;
+    height: 120px;
+    border-radius: 5px;
+}
+
+.schedule {
+    margin-top: 30px;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.special {
+    background-color: #f1f1f1;
+}
+
+.right-panel {
+    top: 0px;
+  left: 1088px;
+  width: 352px;
+  height: 900px;
+  background-color: #d3d3d3;
+}
+
+.urban-environment {
+    top: 76px;
+    left: 1112px;
+    width: 304px;
+    height: 282px;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+.municipality-planning {
+    top: 424px;
+    left: 1112px;
+    width: 304px;
+    height: 80px;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+.notifications {
+    top: 754px;
+    left: 1112px;
+    width: 304px;
+    height: 121px;
+    background-color: #ffffff;
+    border-radius: 12px;
+}

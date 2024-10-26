@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCity Dashboard</title>
+    <link rel="stylesheet" href="styleweb1.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="profile">
+            <img src="profile.jpg" alt="Admin Profile">
+            <div class="profile-info">
+                <p>InfraHUB_Admin</p>
+                <p>admin@infrahub.nl</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li class="active">Dashboard</li>
+                <li>Support</li>
+                <li>InfraHUB</li>
+                <li>Municipality</li>
+                <li>Notifications</li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#">Settings</a>
+            <a href="#">Sign Out</a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <h1>Dashboard <span>SmartCity</span></h1>
+            <input type="search" placeholder="Search">
+        </header>
+        
+        <section class="cards">
+            <div class="card">
+                <img src="mobility.jpg" alt="Mobility Infrastructure">
+                <h2>Mobility Infrastructure</h2>
+                <p>Maintenance planning<br>Map Overview</p>
+                <button>View Map</button>
+            </div>
+            <div class="card">
+                <img src="sustainability.jpg" alt="Sustainability Metrics">
+                <h2>Sustainability Metrics</h2>
+                <p>Data analysis report<br>AI Data-Strategy</p>
+                <button>View Report</button>
+            </div>
+            <div class="card">
+                <img src="architecture.jpg" alt="Architecture Projects">
+                <h2>Architecture Projects</h2>
+                <p>Architects reports<br>Project requests</p>
+                <button>View Project</button>
+            </div>
+            <div class="card">
+                <img src="maintenance.jpg" alt="Maintenance Reports">
+                <h2>Maintenance Reports</h2>
+                <p>Maintenance plan review<br>Maintenance requests</p>
+                <button>View Dashboard</button>
+            </div>
+        </section>
+        
+        <section class="schedule">
+            <h2>Your Schedule</h2>
+            <div class="calendar">
+                <!-- Insert calendar content similar to the screenshot -->
+            </div>
+        </section>
+        
+        <aside class="right-panel">
+            <div class="traffic-metrics">
+                <img src="traffic.jpg" alt="Urban Environment">
+                <p>Cars on Road: <span>2,345</span></p>
+                <p>Emissions: <span>Low</span></p>
+            </div>
+            
+            <div class="municipality-planning">
+                <button>Street Closure</button>
+                <button>Road Paint</button>
+                <button>Traffic Analysis</button>
+            </div>
+            
+            <div class="notifications">
+                <p>New Traffic Report Available!</p>
+                <button>Go to Report</button>
+            </div>
+        </aside>
+    </div>
+    <script src="scriptweb1.js"></script>
+</body>
+</html>
