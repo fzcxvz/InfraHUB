@@ -20,7 +20,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-y: auto;
         }
         header {
             width: 100%; padding: 20px; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -119,9 +118,10 @@
             west: 4.367
         };
 
-        // Elements for warnings and note title
+        // Elements for warnings, note title, and full street name
         const warning = document.getElementById('warning');
         const noteTitle = document.getElementById('note-title');
+        let fullStreetName = '';
 
         // Function to check if location is within Rotterdam bounds
         function isWithinRotterdamBounds(lat, lng) {
@@ -141,7 +141,7 @@
                 geocoder.geocode(query, function(results) {
                     if (results && results.length > 0) {
                         const latlng = results[0].center;
-                        const streetName = results[0].name;
+                        fullStreetName = results[0].name;
 
                         // Check if location is within Rotterdam's bounds
                         if (!isWithinRotterdamBounds(latlng.lat, latlng.lng)) {
@@ -151,10 +151,10 @@
                             
                             // Center map on searched location and add marker
                             map.setView(latlng, 15); 
-                            L.marker(latlng).addTo(map).bindPopup(streetName).openPopup();
+                            L.marker(latlng).addTo(map).bindPopup(fullStreetName).openPopup();
                             
-                            // Set the note title to the street name or its abbreviation
-                            noteTitle.textContent = abbreviateStreetName(streetName);
+                            // Set the note title to the abbreviated street name
+                            noteTitle.textContent = abbreviateStreetName(fullStreetName);
                         }
                     } else {
                         alert('Address not found.');
@@ -174,16 +174,18 @@
 
         // Print function for capturing map and notes
         document.getElementById('print-btn').addEventListener('click', () => {
-            // Capture map as an image using the HTML2Canvas library
             html2canvas(document.getElementById('map')).then(canvas => {
                 const printWindow = window.open('', '_blank');
-                printWindow.document.write('<html><head><title>Print Map and Notes</title>');
-                printWindow.document.write('</head><body>');
+                printWindow.document.write('<html><head><title>Print Map and Notes</title></head><body>');
                 printWindow.document.write('<h2>Rotterdam Municipality Work Summary</h2>');
-                printWindow.document.body.appendChild(canvas);
                 
+                // Append the map image to the print window
+                printWindow.document.body.appendChild(canvas);
+
+                // Display the full street name in the print summary
+                printWindow.document.write(`<h3>Working on: ${fullStreetName}</h3><ul>`);
+
                 // Capture notes and checklist
-                printWindow.document.write(`<h3>${noteTitle.textContent}</h3><ul>`);
                 const checklist = document.querySelectorAll('.note-taker ul li input');
                 checklist.forEach((item) => {
                     const label = item.parentNode.textContent;
