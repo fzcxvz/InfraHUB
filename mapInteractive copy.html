@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotterdam Interactive Map with Drawing Tools and Legend</title>
+
+    <!-- Leaflet and Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+
+    <style>
+        /* General reset and body styling */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%; padding: 20px; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; font-size: 24px; font-weight: 600;
+        }
+        #map-container {
+            position: relative; width: 100%; height: 600px; overflow: hidden;
+        }
+        #map { height: 100%; width: 100%; border-radius: 12px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+        .note-taker {
+            width: 100%; max-width: 500px; padding: 20px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px; margin-top: 20px; text-align: left; max-height: 300px; overflow-y: auto;
+        }
+        .note-taker h2 { font-size: 20px; margin-bottom: 10px; }
+        .note-taker ul { list-style: none; padding: 0; }
+        .note-taker li { margin-bottom: 8px; }
+        #search-bar {
+            width: 100%; max-width: 500px; padding: 10px; margin-top: 20px; border: 1px solid #ccc;
+            border-radius: 8px; font-size: 16px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        #legend {
+            margin-top: 10px;
+            font-size: 14px;
+            max-width: 500px;
+            text-align: left;
+        }
+        #legend .entry { display: flex; align-items: center; margin: 5px 0; }
+        #legend .color-box {
+            width: 15px; height: 15px; margin-right: 8px; border-radius: 3px;
+        }
+        #export-btn {
+            margin-top: 10px; padding: 10px 20px; background: #28a745; color: white;
+            border: none; border-radius: 8px; font-size: 16px; cursor: pointer;
+        }
+        #export-btn:hover { background: #218838; }
+        #print-btn {
+            margin-top: 10px; padding: 10px 20px; background: #007aff; color: white;
+            border: none; border-radius: 8px; font-size: 16px; cursor: pointer;
+        }
+        #print-btn:hover { background: #005bb5; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>Rotterdam Interactive Map with Drawing Tools and Legend</header>
+    
+    <!-- Search Bar -->
+    <input id="search-bar" type="text" placeholder="Enter an address or street name" autofocus>
+    <div id="warning"></div>
+    
+    <!-- Map Container -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <!-- Note Taker Sidebar -->
+    <div class="note-taker" id="note-taker">
+        <h2 id="note-title">Street/Area Notes</h2>
+        <ul>
+            <li><input type="checkbox"> Road Condition Assessment</li>
+            <li><input type="checkbox"> Safety Inspections</li>
+            <li><input type="checkbox"> Accessibility Requirements</li>
+            <li><input type="checkbox"> Infrastructure Assessment</li>
+            <li><input type="checkbox"> Green Spaces and Landscaping</li>
+        </ul>
+        <textarea id="additional-notes" placeholder="Additional notes..." rows="5" style="width: 100%; margin-top: 10px;"></textarea>
+        <button id="print-btn">Print PDF Report</button>
+        <button id="export-btn">Export Map as Image</button>
+    </div>
+
+    <!-- Legend -->
+    <div id="legend">
+        <h3>Legend:</h3>
+    </div>
+    
+    <!-- Leaflet, Geocoder, Leaflet Draw, Leaflet Measure, html2canvas, and jsPDF Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // Initialize the map
+        const map = L.map('map').setView([51.9225, 4.47917], 13);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Geocoder for address search
+        const geocoder = L.Control.Geocoder.nominatim();
+
+        // Initialize drawing layer and controls
+        const drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        // Color selectors for each shape type
+        let selectedColor = 'blue';
+        const colors = {
+            polygon: 'blue',
+            polyline: 'green',
+            rectangle: 'red',
+            circle: 'orange'
+        };
+
+        function updateLegend() {
+            const legend = document.getElementById('legend');
+            legend.innerHTML = "<h3>Legend:</h3>";
+            for (const [shape, color] of Object.entries(colors)) {
+                const entry = document.createElement('div');
+                entry.classList.add('entry');
+                entry.innerHTML = `<div class="color-box" style="background:${color}"></div> ${shape.charAt(0).toUpperCase() + shape.slice(1)}`;
+                legend.appendChild(entry);
+            }
+        }
+        updateLegend();
+
+        // Add Leaflet.Draw controls with customizable colors
+        const drawControl = new L.Control.Draw({
+            edit: { featureGroup: drawnItems },
+            draw: {
+                polygon: { shapeOptions: { color: colors.polygon } },
+                polyline: { shapeOptions: { color: colors.polyline } },
+                rectangle: { shapeOptions: { color: colors.rectangle } },
+                circle: { shapeOptions: { color: colors.circle } },
+                marker: true
+            }
+        });
+        map.addControl(drawControl);
+
+        // Handle drawing events
+        map.on(L.Draw.Event.CREATED, (e) => {
+            const layer = e.layer;
+            layer.options.color = selectedColor;
+            drawnItems.addLayer(layer);
+        });
+
+        // Area measurements
+        L.control.measure({
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        }).addTo(map);
+
+        // Search functionality
+        document.getElementById('search-bar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = e.target.value;
+                geocoder.geocode(query, function(results) {
+                    if (results && results.length > 0) {
+                        const latlng = results[0].center;
+                        const streetName = results[0].name;
+                        map.setView(latlng, 15);
+                        L.marker(latlng).addTo(map).bindPopup(streetName).openPopup();
+                    } else {
+                        alert('Address not found.');
+                    }
+                });
+            }
+        });
+
+        // Export map as image
+        document.getElementById('export-btn').addEventListener('click', () => {
+            html2canvas(document.getElementById('map')).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'map_image.png';
+                link.click();
+            });
+        });
+
+        // PDF Report Generation
+        document.getElementById('print-btn').addEventListener('click', () => {
+            const doc = new jsPDF();
+            doc.text("Rotterdam Municipality Work Summary", 10, 10);
+            doc.text("Selected Elements:", 10, 20);
+            // Iterate over checkboxes and add checked items
+            const checklist = document.querySelectorAll('.note-taker ul li input');
+            checklist.forEach((item, index) => {
+                if (item.checked) {
+                    const label = item.parentNode.textContent;
+                    doc.text(`- ${label}`, 10, 30 + index * 10);
+                }
+            });
+            doc.text("Additional Notes:", 10, 30 + checklist.length * 10);
+            const notes = document.getElementById('additional-notes').value;
+            doc.text(notes, 10, 40 + checklist.length * 10);
+            doc.save('Rotterdam_Work_Summary.pdf');
+        });
+    </script>
+</body>
+</html>
