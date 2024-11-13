@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    background-color: #f5f5f5;
+}
+.sidebar {
+    background-color: #000000;
+    width: 232px;
+    color: #fff;
+    padding: 20px;
+    height: 100vh;
+}
+.profile img {
+    border-radius: 50%;
+}
+.profile, .settings, nav {
+    margin-bottom: 20px;
+}
+.main {
+    flex: 1;
+    padding: 20px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.card {
+    background-color: #d3d3d3;
+    padding: 20px;
+    border-radius: 12px;
+}
+.right-sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #eaeaea;
+}

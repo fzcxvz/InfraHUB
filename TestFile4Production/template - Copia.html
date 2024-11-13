@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Planning Map Interface</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        header { font-size: 24px; font-weight: 600; margin-top: 10px; }
+        #map-container { width: 100%; height: 600px; margin-top: 20px; }
+        #map { height: 100%; width: 100%; }
+        #customization-panel { margin-top: 10px; display: flex; flex-direction: column; align-items: start; max-width: 400px; }
+        #status-indicator { font-size: 12px; margin-top: 5px; color: green; }
+    </style>
+</head>
+<body>
+
+    <header>Urban Planning Map Interface</header>
+
+    <!-- Customization Panel -->
+    <div id="customization-panel">
+        <label for="area-select">Select Area:</label>
+        <select id="area-select">
+            <option value="">Choose Area</option>
+            <option value="area1">North Rotterdam</option>
+            <option value="area2">South Rotterdam</option>
+            <option value="area3">East Rotterdam</option>
+            <option value="area4">West Rotterdam</option>
+        </select>
+
+        <button id="export-btn">Export Customized Map</button>
+        <div id="status-indicator">No unsaved changes.</div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Leaflet Libraries -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([51.9225, 4.47917], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+        // Define areas with GeoJSON data
+        const areas = {
+            area1: L.geoJSON({ type: "Feature", geometry: { type: "Polygon", coordinates: [[[4.469, 51.932], [4.475, 51.932], [4.475, 51.937], [4.469, 51.937], [4.469, 51.932]]] } }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+            area2: L.geoJSON({ type: "Feature", geometry: { type: "Polygon", coordinates: [[[4.460, 51.920], [4.470, 51.920], [4.470, 51.926], [4.460, 51.926], [4.460, 51.920]]] } }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+            area3: L.geoJSON({ type: "Feature", geometry: { type: "Polygon", coordinates: [[[4.485, 51.910], [4.495, 51.910], [4.495, 51.915], [4.485, 51.915], [4.485, 51.910]]] } }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+            area4: L.geoJSON({ type: "Feature", geometry: { type: "Polygon", coordinates: [[[4.455, 51.905], [4.465, 51.905], [4.465, 51.910], [4.455, 51.910], [4.455, 51.905]]] } }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } })
+        };
+        let selectedArea = null;
+
+        // Add area selection functionality
+        document.getElementById('area-select').addEventListener('change', (event) => {
+            const area = event.target.value;
+            if (selectedArea) map.removeLayer(selectedArea);
+            if (area && areas[area]) {
+                selectedArea = areas[area];
+                selectedArea.addTo(map);
+                map.fitBounds(selectedArea.getBounds());
+                document.getElementById('status-indicator').textContent = "Area selected.";
+            }
+        });
+
+        // Add drawing and measurement tools
+        const drawControl = new L.Control.Draw({
+            draw: {
+                polyline: true,
+                polygon: true,
+                rectangle: true,
+                circle: false,
+                marker: true
+            },
+            edit: {
+                featureGroup: new L.FeatureGroup().addTo(map)
+            }
+        });
+        map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function (e) {
+            const layer = e.layer;
+            drawControl.options.edit.featureGroup.addLayer(layer);
+            document.getElementById('status-indicator').textContent = "Shape drawn.";
+        });
+
+        // Layer control to toggle map layers
+        const baseLayers = {
+            "Default": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map),
+            "Topographic": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'),
+            "Traffic": L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png')
+        };
+        L.control.layers(baseLayers).addTo(map);
+
+        // Export functionality
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const allLayers = drawControl.options.edit.featureGroup.toGeoJSON();
+            if (allLayers.features.length) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allLayers));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", "customized_map_data.geojson");
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+                document.getElementById('status-indicator').textContent = "Exported customized GeoJSON.";
+            } else {
+                alert("No custom shapes or points to export.");
+            }
+        });
+    </script>
+</body>
+</html>

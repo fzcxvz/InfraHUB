@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Planning Map Interface</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-measure/2.3.0/leaflet-measure.min.css" />
+
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; }
+        header { font-size: 24px; font-weight: 600; margin-top: 10px; }
+        #map-container { width: 100%; height: 600px; margin-top: 20px; }
+        #map { height: 100%; width: 100%; }
+        #customization-panel { margin-top: 10px; display: flex; flex-direction: column; align-items: start; max-width: 400px; }
+        #status-indicator { font-size: 12px; margin-top: 5px; color: green; }
+    </style>
+</head>
+<body>
+
+    <header>Urban Planning Map Interface</header>
+
+    <!-- Customization Panel -->
+    <div id="customization-panel">
+        <label for="level-select">Select Level:</label>
+        <select id="level-select">
+            <option value="">Choose Level</option>
+            <option value="borough">Borough Level</option>
+            <option value="zone">Zone Level</option>
+        </select>
+
+        <label for="area-select">Select Area:</label>
+        <select id="area-select" disabled>
+            <option value="">Select a level first</option>
+        </select>
+
+        <button id="export-btn">Export Customized Map</button>
+        <div id="status-indicator">No unsaved changes.</div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Leaflet Libraries -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-measure/2.3.0/leaflet-measure.min.js"></script>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([51.9225, 4.47917], 12);
+
+        // Base layers
+        const baseLayers = {
+            "Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map),
+            "Topographic": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'),
+            "Traffic": L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png')
+        };
+
+        // Overlay layers for Demographics and Zoning (using made-up data for demonstration)
+        const demographicsLayer = L.geoJSON({
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[4.47, 51.92], [4.48, 51.92], [4.48, 51.93], [4.47, 51.93], [4.47, 51.92]]]
+                },
+                "properties": { "name": "Demographic Zone 1" }
+            }]
+        }, { style: { color: 'purple', weight: 1 } });
+
+        const zoningLayer = L.geoJSON({
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [[[4.46, 51.91], [4.47, 51.91], [4.47, 51.92], [4.46, 51.92], [4.46, 51.91]]]
+                },
+                "properties": { "name": "Zoning Zone 1" }
+            }]
+        }, { style: { color: 'orange', weight: 1 } });
+
+        const overlayLayers = {
+            "Demographics": demographicsLayer,
+            "Zoning": zoningLayer
+        };
+
+        // Add layer control
+        L.control.layers(baseLayers, overlayLayers).addTo(map);
+
+        // Define real boroughs and zones of Rotterdam
+// JavaScript for handling boroughs and zones selection
+
+const boroughs = {
+    "Centrum": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.464, 51.917], [4.497, 51.917], [4.497, 51.933], [4.464, 51.933], [4.464, 51.917]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Charlois": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.444, 51.874], [4.525, 51.874], [4.525, 51.915], [4.444, 51.915], [4.444, 51.874]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Delfshaven": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.428, 51.902], [4.466, 51.902], [4.466, 51.925], [4.428, 51.925], [4.428, 51.902]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Feijenoord": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.490, 51.890], [4.550, 51.890], [4.550, 51.920], [4.490, 51.920], [4.490, 51.890]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Kralingen-Crooswijk": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.500, 51.920], [4.550, 51.920], [4.550, 51.950], [4.500, 51.950], [4.500, 51.920]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Noord": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.450, 51.930], [4.490, 51.930], [4.490, 51.950], [4.450, 51.950], [4.450, 51.930]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Overschie": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.400, 51.930], [4.450, 51.930], [4.450, 51.960], [4.400, 51.960], [4.400, 51.930]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } }),
+    "Prins Alexander": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.550, 51.950], [4.600, 51.950], [4.600, 51.990], [4.550, 51.990], [4.550, 51.950]]]
+        }
+    }, { style: { color: 'blue', weight: 2, fillOpacity: 0 } })
+};
+
+const zones = {
+    "North Rotterdam": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.450, 51.930], [4.550, 51.930], [4.550, 51.990], [4.450, 51.990], [4.450, 51.930]]]
+        }
+    }, { style: { color: 'green', weight: 2, fillOpacity: 0 } }),
+    "South Rotterdam": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.444, 51.874], [4.550, 51.874], [4.550, 51.920], [4.444, 51.920], [4.444, 51.874]]]
+        }
+    }, { style: { color: 'green', weight: 2, fillOpacity: 0 } }),
+    "East Rotterdam": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.500, 51.920], [4.600, 51.920], [4.600, 51.990], [4.500, 51.990], [4.500, 51.920]]]
+        }
+    }, { style: { color: 'green', weight: 2, fillOpacity: 0 } }),
+    "West Rotterdam": L.geoJSON({
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[4.400, 51.902], [4.466, 51.902], [4.466, 51.925], [4.400, 51.925], [4.400, 51.902]]]
+        }
+    }, { style: { color: 'green', weight: 2, fillOpacity: 0 } })
+};
+
+
+    let selectedArea = null;
+
+    // Handle level selection
+    document.getElementById('level-select').addEventListener('change', function (event) {
+        const level = event.target.value;
+        const areaSelect = document.getElementById('area-select');
+        areaSelect.innerHTML = '<option value="">Select Area</option>';
+        areaSelect.disabled = !level;
+
+        if (level === 'borough') {
+            Object.keys(boroughs).forEach((borough) => {
+                const option = document.createElement('option');
+                option.value = borough;
+                option.textContent = borough;
+                areaSelect.appendChild(option);
+            });
+        } else if (level === 'zone') {
+            Object.keys(zones).forEach((zone) => {
+                const option = document.createElement('option');
+                option.value = zone;
+                option.textContent = zone;
+                areaSelect.appendChild(option);
+            });
+        }
+    });
+
+    // Handle area selection to display on map
+    document.getElementById('area-select').addEventListener('change', function (event) {
+        const area = event.target.value;
+        if (selectedArea) map.removeLayer(selectedArea);
+        if (area && (boroughs[area] || zones[area])) {
+            selectedArea = boroughs[area] || zones[area];
+            selectedArea.addTo(map);
+            map.fitBounds(selectedArea.getBounds());
+            document.getElementById('status-indicator').textContent = "Area selected.";
+        }
+    });
+
+        // Add drawing and measurement tools
+        const drawControl = new L.Control.Draw({
+            draw: {
+                polyline: true,
+                polygon: true,
+                rectangle: true,
+                circle: false,
+                marker: true
+            },
+            edit: {
+                featureGroup: new L.FeatureGroup().addTo(map)
+            }
+        });
+        map.addControl(drawControl);
+
+        // Measurement tools
+        L.control.measure({
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        }).addTo(map);
+
+        map.on(L.Draw.Event.CREATED, function (e) {
+            const layer = e.layer;
+            drawControl.options.edit.featureGroup.addLayer(layer);
+
+            if (e.layerType === 'marker') {
+                const note = prompt("Add a note for this point:");
+                if (note) {
+                    layer.bindPopup(note).openPopup();
+                }
+            }
+
+            document.getElementById('status-indicator').textContent = "Shape drawn.";
+        });
+
+        // Export functionality
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const allLayers = drawControl.options.edit.featureGroup.toGeoJSON();
+            if (allLayers.features.length) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allLayers));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", "customized_map_data.geojson");
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+                document.getElementById('status-indicator').textContent = "Exported customized GeoJSON.";
+            } else {
+                alert("No custom shapes or points to export.");
+            }
+        });
+    </script>
+</body>
+</html>

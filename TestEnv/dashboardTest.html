@@ -1,0 +1,326 @@
+<html>
+ <head>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+        }
+  </style>
+ </head>
+ <body class="bg-gray-100">
+  <div class="flex">
+   <!-- Sidebar -->
+   <div class="bg-black text-white w-64 min-h-screen flex flex-col">
+    <div class="p-4 flex items-center">
+     <img alt="User profile picture" class="rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/rLb1DTPkQ8rgC1beFex6vYpZwNbRYJcANuCf4oEbXGdmSIYnA.jpg" width="50"/>
+     <div class="ml-4">
+      <div class="font-bold">
+       InfraHUB_Admin
+      </div>
+      <div class="text-sm">
+       admin@infrahub.nl
+      </div>
+     </div>
+    </div>
+    <nav class="mt-8 flex-1">
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Dashboard
+     </a>
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Support
+     </a>
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      InfraHUB
+     </a>
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Municipality
+     </a>
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Notifications
+     </a>
+    </nav>
+    <div class="p-4">
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Settings
+     </a>
+     <a class="block py-2.5 px-4 hover:bg-gray-700" href="#">
+      Sign Out
+     </a>
+    </div>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-1 p-6">
+    <div class="flex justify-between items-center mb-6">
+     <h1 class="text-3xl font-bold">
+      Dashboard
+      <span class="text-gray-500">
+       SmartCity
+      </span>
+     </h1>
+     <div class="flex items-center space-x-4">
+      <div class="relative">
+       <input class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Search" type="text"/>
+       <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+       </i>
+      </div>
+      <i class="fas fa-bell text-xl">
+      </i>
+      <i class="fas fa-map-marker-alt text-xl">
+      </i>
+     </div>
+    </div>
+    <div class="grid grid-cols-2 gap-6 mb-6">
+     <div class="bg-gray-200 p-4 rounded-lg">
+      <img alt="Cityscape at night" class="rounded-lg mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/6dGeAwjchLUyEKafnBYAmv4QeZ3aeo0k1n45fLBaWefVnEC2JA.jpg" width="300"/>
+      <h2 class="text-xl font-bold">
+       Mobility Infrastructure
+      </h2>
+      <p>
+       Maintenance planning
+       <br/>
+       Map Overview
+      </p>
+      <button class="mt-4 bg-white text-black py-2 px-4 rounded-full">
+       View Map
+      </button>
+     </div>
+     <div class="bg-gray-200 p-4 rounded-lg">
+      <img alt="Architectural plans" class="rounded-lg mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/kYXUMtOBjwaAMBlzcFopRJgmWftK3qIngjfu8JNXJTSMJEsTA.jpg" width="300"/>
+      <h2 class="text-xl font-bold">
+       Architecture Projects
+      </h2>
+      <p>
+       Architects reports
+       <br/>
+       Project requests
+      </p>
+      <button class="mt-4 bg-white text-black py-2 px-4 rounded-full">
+       View Project
+      </button>
+     </div>
+     <div class="bg-gray-200 p-4 rounded-lg">
+      <img alt="Sustainable building" class="rounded-lg mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/GGAZXHAOlh7iD5miRrg3eHO6tKiZ9K4fx0LGHJh8dqYQJEsTA.jpg" width="300"/>
+      <h2 class="text-xl font-bold">
+       Sustainability Metrics
+      </h2>
+      <p>
+       Data analysis report
+       <br/>
+       AI Data-Strategy
+      </p>
+      <button class="mt-4 bg-white text-black py-2 px-4 rounded-full">
+       View Report
+      </button>
+     </div>
+     <div class="bg-gray-200 p-4 rounded-lg">
+      <img alt="Golden Gate Bridge" class="rounded-lg mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/6r807CoBfDXWf0D1M1tQZkE7jfUGuq0jeDcpqP89DcRJlQwOB.jpg" width="300"/>
+      <h2 class="text-xl font-bold">
+       Maintenance Reports
+      </h2>
+      <p>
+       Maintenance plan review
+       <br/>
+       Maintenance requests
+      </p>
+      <button class="mt-4 bg-white text-black py-2 px-4 rounded-full">
+       View Dashboard
+      </button>
+     </div>
+    </div>
+    <h2 class="text-2xl font-bold mb-4">
+     Your Schedule
+    </h2>
+    <div class="bg-white p-4 rounded-lg shadow">
+     <div class="flex justify-between items-center mb-4">
+      <span class="text-gray-500">
+       May 01 - May 21, 2024
+      </span>
+      <i class="fas fa-chevron-down">
+      </i>
+     </div>
+     <div class="grid grid-cols-7 gap-2 text-center">
+      <div class="p-2 bg-gray-200 rounded-lg">
+       1
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       2
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       3
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       4
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       5
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       6
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       7
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       8
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       9
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg relative">
+       10
+       <div class="absolute top-0 right-0 bg-black text-white text-xs rounded-full px-2 py-1">
+        Report issue
+       </div>
+       <div class="mt-2 text-left">
+        <div class="font-bold">
+         Key metrics tracking
+        </div>
+        <div class="text-sm text-gray-500">
+         Pollen Report - Sustainability
+        </div>
+       </div>
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       11
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       12
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       13
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       14
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg relative">
+       15
+       <div class="absolute top-0 right-0 bg-black text-white text-xs rounded-full px-2 py-1">
+        View data
+       </div>
+       <div class="mt-2 text-left">
+        <div class="font-bold">
+         Sustainability metrics
+        </div>
+        <div class="text-sm text-gray-500">
+         Data analysis
+        </div>
+       </div>
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       16
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       17
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       18
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg relative">
+       19
+       <div class="absolute top-0 right-0 bg-black text-white text-xs rounded-full px-2 py-1">
+        Maintenance
+       </div>
+       <div class="mt-2 text-left">
+        <div class="font-bold">
+         Maintenance
+        </div>
+        <div class="text-sm text-gray-500">
+         Maintenance Willem Ruyslaan
+        </div>
+       </div>
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       20
+      </div>
+      <div class="p-2 bg-gray-200 rounded-lg">
+       21
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Right Sidebar -->
+   <div class="w-80 bg-gray-200 p-6">
+    <h2 class="text-xl font-bold mb-4">
+     Urban Environment
+    </h2>
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+     <img alt="Cityscape at sunset" class="rounded-lg mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/nhOtFKTsAPaLP9WVEdRaL53UTSA16yU0yPEDOfJcXd3nEC2JA.jpg" width="300"/>
+     <h3 class="text-lg font-bold">
+      Traffic Metrics
+     </h3>
+     <p>
+      Cars on Road:
+      <span class="font-bold">
+       2,345
+      </span>
+     </p>
+     <p>
+      Emissions:
+      <span class="font-bold">
+       Low
+      </span>
+     </p>
+    </div>
+    <h2 class="text-xl font-bold mb-4">
+     Municipality Planning
+    </h2>
+    <div class="space-y-4 mb-6">
+     <div class="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+      <div>
+       <h3 class="text-lg font-bold">
+        Street Closure
+       </h3>
+       <p class="text-sm text-gray-500">
+        Architecture Projects
+       </p>
+      </div>
+      <i class="fas fa-exchange-alt text-xl">
+      </i>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+      <div>
+       <h3 class="text-lg font-bold">
+        Road Paint
+       </h3>
+       <p class="text-sm text-gray-500">
+        Maintenance Reports
+       </p>
+      </div>
+      <i class="fas fa-exchange-alt text-xl">
+      </i>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+      <div>
+       <h3 class="text-lg font-bold">
+        Traffic Analysis
+       </h3>
+       <p class="text-sm text-gray-500">
+        Mobility Infrastructure
+       </p>
+      </div>
+      <i class="fas fa-exchange-alt text-xl">
+      </i>
+     </div>
+    </div>
+    <h2 class="text-xl font-bold mb-4">
+     Notifications
+    </h2>
+    <div class="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+     <div>
+      <h3 class="text-lg font-bold">
+       New Traffic Report Available!
+      </h3>
+      <p class="text-sm text-gray-500">
+       Contact the support team for assistance.
+      </p>
+     </div>
+     <i class="fas fa-arrow-right text-xl">
+     </i>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
