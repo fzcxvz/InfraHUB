@@ -1,0 +1,35 @@
+{
+    "pipelines": [
+        {
+            "type": "Water Pipeline",
+            "material": "PVC",
+            "diameter": "100 mm",
+            "capacity": "50,000 L/h",
+            "installation_year": 2010,
+            "maintenance_status": "Good"
+        },
+        {
+            "type": "Gas Pipeline",
+            "material": "Steel",
+            "diameter": "150 mm",
+            "capacity": "30,000 m\u00b3/h",
+            "installation_year": 2008,
+            "maintenance_status": "Moderate"
+        },
+        {
+            "type": "Electrical Grid",
+            "material": "Copper",
+            "voltage": "220 kV",
+            "current_capacity": "5,000 A",
+            "installation_year": 2015,
+            "maintenance_status": "Excellent"
+        },
+        {
+            "type": "Telecom Fiber",
+            "material": "Fiber Optic",
+            "bandwidth": "1 Gbps",
+            "installation_year": 2020,
+            "maintenance_status": "Good"
+        }
+    ]
+}

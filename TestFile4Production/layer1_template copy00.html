@@ -51,6 +51,15 @@
         <label><input type="checkbox" id="telecom-fiber"> Telecom Fiber</label><br>
     </div>
 
+
+    <div id="details-container" style="margin-top: 20px;">
+        <h3>Point Details</h3>
+        <div id="point-details" style="border: 1px solid #ccc; padding: 10px; max-width: 500px; overflow-y: auto; max-height: 300px;">
+            No points clicked yet.
+        </div>
+        <button id="export-point-details" style="margin-top: 10px;">Export Point Details</button>
+    </div>
+
     <!-- Leaflet, Leaflet Draw, Leaflet Measure, and jsPDF libraries -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
@@ -123,55 +132,94 @@
         });
 
 
-        // Layers for utilities
-const utilityLayers = {
+// Containers for utility layers and clicked points
+let utilityLayers = {
     "Water Pipeline": L.layerGroup(),
     "Gas Pipeline": L.layerGroup(),
     "Electrical Grid": L.layerGroup(),
     "Telecom Fiber": L.layerGroup()
 };
+let pipelineDetails = {};
 
-    fetch('utilities.json')
-        .then(response => response.json())
-        .then(data => {
-            data.utilities.forEach(utility => {
-                const polyline = L.polyline(utility.coordinates, {
-                    color: utility.color,
-                    weight: utility.weight,    // Line thickness
-                    dashArray: utility.dashArray, // Dash pattern
-                    opacity: utility.opacity,  // Transparency
-                    smoothFactor: 1.5          // Makes the lines smoother
-                }).bindPopup(`${utility.type}`);
-                utilityLayers[utility.type].addLayer(polyline);
+// Fetch pipeline details
+fetch('pipeline_details.json')
+    .then(response => response.json())
+    .then(data => {
+        pipelineDetails = data.pipelines;
+    })
+    .catch(error => console.error('Error loading pipeline details:', error));
+
+// Add utility layers with interaction
+fetch('utilities.json')
+    .then(response => response.json())
+    .then(data => {
+        data.utilities.forEach((utility, index) => {
+            const polyline = L.polyline(utility.coordinates, {
+                color: utility.color,
+                weight: utility.weight,
+                dashArray: utility.dashArray,
+                opacity: utility.opacity
             });
-        })
-        .catch(error => console.error('Error loading utilities:', error));
 
-    // Function to toggle layer visibility
-    function toggleLayer(checkbox, layerName) {
-        if (checkbox.checked) {
-            utilityLayers[layerName].addTo(map);
-        } else {
-            map.removeLayer(utilityLayers[layerName]);
-        }
+            // Add points for each pipeline
+            utility.coordinates.forEach(coord => {
+                const marker = L.circleMarker(coord, {
+                    radius: 5,
+                    color: utility.color,
+                    fillOpacity: 0.8
+                }).on('click', function () {
+                    const pipelineDetail = pipelineDetails.find(detail => detail.type === utility.type) || {};
+                    const detailBoxContent = `
+                        <div>
+                            <b>${utility.type}</b><br>
+                            <b>Details:</b><br>
+                            Material: ${pipelineDetail.material || 'N/A'}<br>
+                            Capacity: ${pipelineDetail.capacity || 'N/A'}<br>
+                            Installation Year: ${pipelineDetail.installation_year || 'N/A'}<br>
+                            Maintenance Status: ${pipelineDetail.maintenance_status || 'N/A'}
+                        </div>
+                    `;
+
+                    // Display details in a box near the clicked point
+                    L.popup()
+                        .setLatLng(coord)
+                        .setContent(detailBoxContent)
+                        .openOn(map);
+                });
+
+                // Add points to the layer group
+                utilityLayers[utility.type].addLayer(marker);
+            });
+
+            // Add pipeline to the layer group
+            utilityLayers[utility.type].addLayer(polyline);
+        });
+    })
+    .catch(error => console.error('Error loading utilities:', error));
+
+// Function to toggle utility layers and their points
+function toggleLayer(checkbox, layerName) {
+    if (checkbox.checked) {
+        utilityLayers[layerName].addTo(map);
+    } else {
+        map.removeLayer(utilityLayers[layerName]);
     }
+}
 
-    // Add event listeners for the checkboxes
-    document.getElementById('water-pipelines').addEventListener('change', function () {
-        toggleLayer(this, "Water Pipeline");
-    });
+// Event listeners for checkboxes
+document.getElementById('water-pipelines').addEventListener('change', function () {
+    toggleLayer(this, "Water Pipeline");
+});
+document.getElementById('gas-pipelines').addEventListener('change', function () {
+    toggleLayer(this, "Gas Pipeline");
+});
+document.getElementById('electrical-grids').addEventListener('change', function () {
+    toggleLayer(this, "Electrical Grid");
+});
+document.getElementById('telecom-fiber').addEventListener('change', function () {
+    toggleLayer(this, "Telecom Fiber");
+});
 
-    document.getElementById('gas-pipelines').addEventListener('change', function () {
-        toggleLayer(this, "Gas Pipeline");
-    });
-
-    document.getElementById('electrical-grids').addEventListener('change', function () {
-        toggleLayer(this, "Electrical Grid");
-    });
-
-    document.getElementById('telecom-fiber').addEventListener('change', function () {
-        toggleLayer(this, "Telecom Fiber");
-    });
 
     </script>
 </body>

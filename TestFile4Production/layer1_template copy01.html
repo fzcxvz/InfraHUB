@@ -133,16 +133,15 @@
 
 
 // Containers for utility layers and clicked points
-// Containers for utility layers
-const utilityLayers = {
+let utilityLayers = {
     "Water Pipeline": L.layerGroup(),
     "Gas Pipeline": L.layerGroup(),
     "Electrical Grid": L.layerGroup(),
     "Telecom Fiber": L.layerGroup()
 };
-
-// Fetch utility and pipeline details
 let pipelineDetails = {};
+
+// Fetch pipeline details
 fetch('pipeline_details.json')
     .then(response => response.json())
     .then(data => {
@@ -150,11 +149,11 @@ fetch('pipeline_details.json')
     })
     .catch(error => console.error('Error loading pipeline details:', error));
 
-    fetch('utilities.json')
+// Add utility layers with interaction
+fetch('utilities.json')
     .then(response => response.json())
     .then(data => {
-        data.utilities.forEach(utility => {
-            // Add pipelines
+        data.utilities.forEach((utility, index) => {
             const polyline = L.polyline(utility.coordinates, {
                 color: utility.color,
                 weight: utility.weight,
@@ -163,73 +162,42 @@ fetch('pipeline_details.json')
             });
 
             // Add points for each pipeline
-            utility.coordinates.forEach((coord, index) => {
+            utility.coordinates.forEach(coord => {
                 const marker = L.circleMarker(coord, {
                     radius: 5,
                     color: utility.color,
                     fillOpacity: 0.8
-                });
-
-                // Add hover interaction for "View Details"
-                marker.on('mouseover', function () {
-                    const popupContent = `
+                }).on('click', function () {
+                    const pipelineDetail = pipelineDetails.find(detail => detail.type === utility.type) || {};
+                    const detailBoxContent = `
                         <div>
-                            <button id="view-details-btn-${index}-${coord[0]}-${coord[1]}">View Details</button>
+                            <b>${utility.type}</b><br>
+                            <b>Details:</b><br>
+                            Material: ${pipelineDetail.material || 'N/A'}<br>
+                            Capacity: ${pipelineDetail.capacity || 'N/A'}<br>
+                            Installation Year: ${pipelineDetail.installation_year || 'N/A'}<br>
+                            Maintenance Status: ${pipelineDetail.maintenance_status || 'N/A'}
                         </div>
                     `;
-                    marker.bindPopup(popupContent).openPopup();
 
-                    // Attach event dynamically to "View Details" button
-                    setTimeout(() => {
-                        const viewDetailsButton = document.getElementById(`view-details-btn-${index}-${coord[0]}-${coord[1]}`);
-                        if (viewDetailsButton) {
-                            viewDetailsButton.addEventListener('click', () => {
-                                // Close current popup
-                                marker.closePopup();
-
-                                // Fetch and show details
-                                const pipelineDetail = pipelineDetails.find(detail => detail.type === utility.type) || {};
-                                const detailBoxContent = `
-                                    <div>
-                                        <b>${utility.type} Point Details</b><br>
-                                        Latitude: ${coord[0].toFixed(6)}<br>
-                                        Longitude: ${coord[1].toFixed(6)}<br>
-                                        Material: ${pipelineDetail.material || 'N/A'}<br>
-                                        Capacity: ${pipelineDetail.capacity || 'N/A'}<br>
-                                        Installation Year: ${pipelineDetail.installation_year || 'N/A'}<br>
-                                        Maintenance Status: ${pipelineDetail.maintenance_status || 'N/A'}
-                                    </div>
-                                `;
-
-                                // Display details in a popup at the point
-                                L.popup()
-                                    .setLatLng(coord)
-                                    .setContent(detailBoxContent)
-                                    .openOn(map);
-                            });
-                        }
-                    }, 100); // Add slight delay to ensure button rendering
+                    // Display details in a box near the clicked point
+                    L.popup()
+                        .setLatLng(coord)
+                        .setContent(detailBoxContent)
+                        .openOn(map);
                 });
 
-                // Prevent premature popup closing
-                marker.on('mouseout', function () {
-                    setTimeout(() => {
-                        if (!marker.isPopupOpen()) {
-                            marker.closePopup();
-                        }
-                    }, 300); // Allow time for interacting with the button
-                });
-
+                // Add points to the layer group
                 utilityLayers[utility.type].addLayer(marker);
             });
 
-            // Add pipeline to the corresponding layer
+            // Add pipeline to the layer group
             utilityLayers[utility.type].addLayer(polyline);
         });
     })
     .catch(error => console.error('Error loading utilities:', error));
 
-// Function to toggle pipeline visibility
+// Function to toggle utility layers and their points
 function toggleLayer(checkbox, layerName) {
     if (checkbox.checked) {
         utilityLayers[layerName].addTo(map);
@@ -251,8 +219,6 @@ document.getElementById('electrical-grids').addEventListener('change', function 
 document.getElementById('telecom-fiber').addEventListener('change', function () {
     toggleLayer(this, "Telecom Fiber");
 });
-
-
 
 //////////
 
